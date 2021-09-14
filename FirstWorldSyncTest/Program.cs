@@ -8,11 +8,8 @@ namespace FirstWorldSyncTest
         static void Main(string[] args)
         {
             var consoleLogWriter = new ConsoleLogWriter();
-            consoleLogWriter.LogError("some error message");
-            Thread.Sleep(3000);
-            consoleLogWriter.LogInfo("some info message");
-            Thread.Sleep(3000);
-            consoleLogWriter.LogWarning("some warning message");
+            var fileLogWriter = new FileLogWriter(@"E:\FWS_FileLogWriter");
+            fileLogWriter.LogError("some message");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace FirstWorldSyncTest
             Info,
             Warning
         }
-        protected static string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss+ffff");
+        
+        protected string GetTimestamp() => DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss+ffff");
     }
 }
