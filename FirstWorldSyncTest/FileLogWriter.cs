@@ -10,15 +10,12 @@ namespace FirstWorldSyncTest
     class FileLogWriter : LogWriter, ILogWriter
     {
         private DirectoryInfo directory;
-        public string DirPath { get; private set; }
         public string ErrorsDirPath { get; private set; }
         public string InfoDirPath { get; private set; }
         public string WarningDirPath { get; private set; }
         public FileLogWriter(string dirPath)
         {
-            //DirPath = dirPath;
             directory = new DirectoryInfo(dirPath);
-
             if (!directory.Exists) 
             {
                 directory.Create();
@@ -33,17 +30,20 @@ namespace FirstWorldSyncTest
         public void LogError(string message)
         {
             var filePath = CreateFilePathName(MessageType.Error);
-            File.Create(filePath);
+            CreateLogFile(filePath, message, MessageType.Error);
         }
 
         public void LogInfo(string message)
         {
-            throw new NotImplementedException();
+            var filePath = CreateFilePathName(MessageType.Info);
+            CreateLogFile(filePath, message, MessageType.Info);
+
         }
 
         public void LogWarning(string message)
         {
-            throw new NotImplementedException();
+            var filePath = CreateFilePathName(MessageType.Warning);
+            CreateLogFile(filePath, message, MessageType.Warning);
         }
 
         private string CreateFilePathName(MessageType mt) => mt switch
@@ -53,5 +53,19 @@ namespace FirstWorldSyncTest
             MessageType.Warning => WarningDirPath + @"\" + GetTimestamp().Replace(":", "-") + "_LogWarning.txt",
             _ => throw new ArgumentOutOfRangeException(nameof(mt), $"Неожиданное значение MessageType: {mt}")
         };
+
+        private void CreateLogFile(string filePath, string message, MessageType mt)
+        {
+            try
+            {
+                using var streamWriter = new StreamWriter(filePath, false, Encoding.Default);
+                streamWriter.WriteLine($"{GetTimestamp()}   Message Type: {mt}   {message}");
+                streamWriter.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
     }
 }

@@ -9,7 +9,9 @@ namespace FirstWorldSyncTest
         {
             var consoleLogWriter = new ConsoleLogWriter();
             var fileLogWriter = new FileLogWriter(@"E:\FWS_FileLogWriter");
-            fileLogWriter.LogError("some message");
+            fileLogWriter.LogError("some error message");
+            fileLogWriter.LogInfo("some info message");
+            fileLogWriter.LogWarning("some warning message");
         }
     }
 }
